@@ -27,7 +27,7 @@ object appendMode {
 //      )
 //    )
 
-    // Reading a schema form the sample file to avoid writing schema by own
+    // Reading a schema form the sample file to avoid writing schema by own, in real time we may have hunderds of columns
     val dfr = spark.read.option("Header",true).csv("/user/viswatejaster9073/streaming/samplefile.csv")
     val sch= dfr.schema
     println("schema",sch)
