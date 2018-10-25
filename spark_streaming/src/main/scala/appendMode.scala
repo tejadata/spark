@@ -27,15 +27,15 @@ object appendMode {
 //      )
 //    )
 
-    // Reading a schema form the sample file to avoid writing schema by own, in real time we may have hunderds of columns
+    // Reading a schema form the sample file to avoid writing schema by own
     val dfr = spark.read.option("Header",true).csv("/user/viswatejaster9073/streaming/samplefile.csv")
     val sch= dfr.schema
     println("schema",sch)
 
-   // val df = spark.readStream.option("header",true).csv("/user/viswatejaster9073/streaming")
-
+    //Creating a streaming Data frame
     val df = spark.readStream.option("header",true).schema(sch).csv("/user/viswatejaster9073/streaming")
-
+   
+    // Printing if the dataframe is ready for stream
     println("Is the stream Ready?")
     println(df.isStreaming)
 
