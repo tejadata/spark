@@ -1,5 +1,6 @@
-#NOTE
-'From spark 2.x' we have unified API for both bulk and stream data processing, we can use all api which is avilable for Bulk in streaming, the major difference we see is for bulk we use read/write option where for streaming we use readStream/writeStream
+# NOTE
+
+From spark 2.x we have unified API for both bulk and stream data processing, we can use all api which is avilable for Bulk in streaming, the major difference we see is for bulk we use read/write option where for streaming we use readStream/writeStream
 
 # spark-streaming
 
