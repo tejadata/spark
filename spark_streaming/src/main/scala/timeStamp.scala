@@ -1,10 +1,7 @@
 
 import org.apache.spark.sql._
-import org.apache.spark.sql.functions.{udf,current_timestamp,col}
-import org.apache.spark.sql.types.{StringType}
-
-
-
+import org.apache.spark.sql.functions.{udf,current_timestamp,col,desc}
+import org.apache.spark.sql.types.{StringType,StructType, StructField,IntegerType}
 
 object timeStamp {
 
@@ -14,12 +11,20 @@ object timeStamp {
     spark.sparkContext.setLogLevel("Error")
 
     // Reading a schema form the sample file to avoid writing schema by own
-    val dfr = spark.read.option("Header", true).csv("/user/viswatejaster9073/samplefile.csv")
-    val sch = dfr.schema
-    println("schema", sch)
+
+        val schema = StructType(
+          Seq(
+            StructField("Restaurant Name",StringType,true),
+            StructField("City",StringType,true),
+            StructField("Average Cost for two",StringType,true),
+            StructField("Has Online delivery",StringType,true),
+            StructField("Price range",IntegerType,true),
+            StructField("Aggregate rating",StringType,true)
+          )
+        )
 
     //Creating a streaming Data frame
-    val df = spark.readStream.option("header", false).schema(sch).csv("/user/viswatejaster9073/streaming")
+    val df = spark.readStream.option("header", false).schema(schema).csv("/user/viswatejaster9073/streaming")
     println("Is the stream Ready?")
     println(df.isStreaming)
 
@@ -34,9 +39,13 @@ object timeStamp {
 
     val dfwithtime = df.withColumn("current_timestamp3", current_time())
 
-    val dff = dfwithtime.select("Restaurant Name","City","current_timestamp3")
+    val dff = dfwithtime.select("Restaurant Name","City","current_timestamp3","Price range")
 
-    val query = dff.writeStream.outputMode("append").format("console").option("truncate",false)
+// calulcaitng the sum of price range using Grouping by for timestamp column
+    val g = dff.groupBy("current_timestamp3").sum("Price range").withColumnRenamed("sum(Price range)", "price_total").orderBy(desc("price_total"))
+
+
+    val query = g.writeStream.outputMode("complete").format("console").option("truncate",false)
       .option("numRows",20).start().awaitTermination()
 
 
