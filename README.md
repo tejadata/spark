@@ -12,4 +12,4 @@ In this you will find how to read/write structured data from file/socket using s
  # Bulk processing
 In this we will see how to process Bulk data
 
-1) Dealing_with_Null_values.ipynb
+1) Dealing_with_Null_values.ipynb:  In this we will see how to del with missing values like filling/dropping etc...
