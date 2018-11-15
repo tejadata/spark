@@ -18,3 +18,6 @@ In this we will see how to process Bulk data
 
 2) ComplexTypeWithJSON.ipynb: In this we will see how to read mutiple lines JSON file with mutiple occurence  and split it in to two different dataframes 
 3) RetailandPromotion_analysys.ipynb: In this we will see how to use basic groupby and orderby scenarios using Retail data
+
+# Machine Learning and Statistics 
+In this we will see how to use different 
